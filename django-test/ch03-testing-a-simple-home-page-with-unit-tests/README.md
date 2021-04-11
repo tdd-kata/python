@@ -20,6 +20,8 @@ django-admin.py startproject superlists
 cd superlists
 ```
 
+### 의도적인 실패 테스트와 함께 lists 앱을 추가
+
 ```bash
 python3 manage.py startapp lists
 ```
@@ -49,3 +51,5 @@ python3 manage.py test
 # ----------------------------------------------------------------------
 # Ran 1 test in 0.000s
 ```
+
+### ㅇ
