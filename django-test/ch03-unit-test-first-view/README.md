@@ -47,9 +47,22 @@ python3 manage.py test
 #   File "[...]/tests.py", line 7, in test_bad_maths
 #     self.assertEqual(1 + 1, 3)
 # AssertionError: 2 != 3
-# 
+#
 # ----------------------------------------------------------------------
 # Ran 1 test in 0.000s
 ```
 
-### ㅇ
+### 첫 단위 테스트와 url mapping 그리고 임시 view
+
+```python
+# superlists/urls.py
+urlpatterns = [
+  url(r'^$', 'lists.views.home_page', name='home'),
+]
+```
+
+```python
+# lists/views.py
+def home_page():
+  pass
+```

@@ -1,6 +1,10 @@
 # 파이썬을 이용한 클린 코드를 위한 테스트 주도 개발
 
-해리 J.W. 퍼시벌
+[해리 J.W. 퍼시벌](https://github.com/hjwp/Book-TDD-Web-Dev-Python/blob/master/book.asciidoc)
+
+## The TDD process with functional and unit tests
+
+![the-tdd-process-with-functional-and-unit-tests.png](../image/the-tdd-process-with-functional-and-unit-tests.png)
 
 ## 개발 환경
 
