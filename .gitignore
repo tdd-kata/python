@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+
+# python
+**/__pycache__/
+**/build/
+**/dist/
+**/*.egg-info
+**/.pytest_cache/
+pytestdebug.log
