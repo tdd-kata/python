@@ -5,7 +5,7 @@ watch -n 0.5 pytest -v tuple.py
 from pytest import raises
 
 def test_length():
-    # tuple은 list와 달리 소괄호를 사용한다.
+    # tuple은 (소괄호)를 사용한다.
     sut = (1, 3, 2, "", False)
     assert len(sut) == 5
 

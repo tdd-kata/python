@@ -5,7 +5,9 @@ watch -n 0.5 pytest -v list.py
 import pytest
 
 def test_length():
-    assert len([1, 3, 2, "", False]) == 5
+    # list는 [대괄호]를 사용한다.
+    sut = [1, 3, 2, "", False]
+    assert len(sut) == 5
 
 def test_sorted():
     sut = [1, 3, 2]
