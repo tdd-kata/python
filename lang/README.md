@@ -8,8 +8,8 @@ wsl
 ```
 
 ```sh
-# 0.5초 간격으로 pytest 실행
-watch -n 0.5 pytest -v list.py
+# 0.1초 간격으로 pytest 실행
+watch -n 0.1 pytest -v list.py
 ```
 
 ## PEP 8: E302 expected 2 blank lines

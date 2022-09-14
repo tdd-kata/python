@@ -1,5 +1,5 @@
 """
-watch -n 0.5 pytest -v tuple.py
+watch -n 0.1 pytest -v tuple.py
 """
 
 from pytest import raises

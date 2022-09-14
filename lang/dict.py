@@ -2,7 +2,7 @@
 # Dictionary
 # Hash
 """_summary_
-watch -n 0.5 pytest -v dict.py
+watch -n 0.1 pytest -v dict.py
 """
 
 from pytest import raises

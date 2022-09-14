@@ -1,5 +1,5 @@
 """
-watch -n 0.5 pytest -v list.py
+watch -n 0.1 pytest -v list.py
 """
 
 import pytest
