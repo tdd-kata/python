@@ -1,4 +1,6 @@
-# pytest -v tuple.py
+"""
+watch -n 0.5 pytest -v tuple.py
+"""
 
 """
 tuple은 list와 달리 값을 변경할 수 없다.
