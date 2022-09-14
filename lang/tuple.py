@@ -2,58 +2,42 @@
 watch -n 0.5 pytest -v tuple.py
 """
 
-"""
-tuple은 list와 달리 값을 변경할 수 없다.
-tuple은 list와 달리 소괄호를 사용한다.
-"""
+from pytest import raises
 
-def length_tuple(tuple):
-    """
-    tuple 길이를 반환한다.
+def test_length():
+    # tuple은 list와 달리 소괄호를 사용한다.
+    sut = (1, 3, 2, "", False)
+    assert len(sut) == 5
 
-    :param tuple: Tuple
-    :return: Length of tuple
-    :rtype: int
-    """
-    return len(tuple)
+def test_sort():
+    # 중복 가능
+    sut = (1, 3, 2, 2)
+    assert sorted(sut) == [1, 2, 2, 3]
 
-def test_length_tuple():
-    assert length_tuple((1, 3, 2, "", False)) == 5
-
-def sorting_tuple(tuple):
-    """
-    tuple을 정렬한다.
-
-    :param tuple: Tuple
-    :return: Sorted tuple
-    """
-    return sorted(tuple)
-
-def test_sorting_tuple():
-    # 중복 허용
-    assert sorting_tuple((1, 3, 2, 2)) == [1, 2, 2, 3]
-
-def slice_tuple(tuple):
-    """
-    tuple의 1번째부터 3번째까지의 값을 반환한다.
-
-    :param tuple: Tuple
-    :return: Sliced tuple
-    """
-    return tuple[1:3]
-
-def test_slice_tuple():
+def test_slice():
     # 순서 보장
-    fixture = (1, 3, 2, 4)
+    sut = (1, 3, 2, 4)
 
-    assert fixture[1] == 3
-    assert (5 in fixture) == False
-    assert slice_tuple(fixture) == (3, 2)
+    assert sut[1] == 3
+    assert (5 in sut) == False
+    assert sut[1:3] == (3, 2)
 
-def others_element_in_unpacking_tuple(tuple):
-    (one, two, *others) = tuple
-    return others
+def test_unpacking():
+    sut = (1, 3, 2, 4)
+    (one, two, *others) = sut # unpacking 시 others는 tuple이 아닌 list로 반환된다.
 
-def test_others_element_is_in_list():
-    # others는 list
-    assert others_element_in_unpacking_tuple((1, 3, 2, 4)) == [2, 4]
+    assert one == 1
+    assert two == 3
+    assert others == [2, 4]
+
+def test_delete():
+    sut = (1, 3, 2, 4)
+    with raises(TypeError) as ex:
+        del sut[1] # tuple은 list와 달리 immutable하다.
+    assert "'tuple' object doesn't support item deletion" in str(ex.value)
+
+def test_assign():
+    sut = (1, 3, 2, 4)
+    with raises(TypeError) as ex:
+        sut[1] = 5 # tuple은 list와 달리 immutable하다.
+    assert "'tuple' object does not support item assignment" in str(ex.value)
