@@ -19,3 +19,7 @@ watch -n 0.1 pytest -v list.py
 ## 참조
 
 - [점프 투 파이썬](https://wikidocs.net/book/1)
+- [파이썬 코딩 도장](https://dojang.io/course/view.php?id=7)
+- [Python Tutorial](https://www.w3schools.com/python/) - W3Schools
+- [Python Tutorial](https://docs.python.org/3/tutorial/index.html) - Python
+- [Python Language Reference](https://docs.python.org/3/reference/index.html) - Python
