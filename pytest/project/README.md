@@ -1,0 +1,6 @@
+# Project
+
+```sh
+# pytest .
+pytest
+```
