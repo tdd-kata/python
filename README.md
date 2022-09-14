@@ -4,11 +4,47 @@
 
 - [Download](https://www.python.org/downloads/)
 
-### Ubuntu
+### Ubuntu 22.04
 
 ```sh
 sudo apt install python3-pip
-pip install --upgrade pytest
+```
+
+```sh
+python --version
+# command not found: python
+
+python3 --version
+# Python 3.10.4
+
+pip --version
+# pip 22.0.2 from /usr/lib/python3/dist-packages/pip (python 3.10)
+
+pip3 --version
+# pip 22.0.2 from /usr/lib/python3/dist-packages/pip (python 3.10)
+```
+
+```sh
+python3 -m pip3 install --upgrade pytest
+```
+
+```sh
+pytest --version
+# command not found: pytest
+```
+
+일반적으로 설치했을 경우 `$HOME/.local/bin`에 설치되기 때문에
+전역적으로 사용하려면 `python3` 명령어를 사용하거나
+`$HOME/.local/bin`을 `$PATH`에 추가한다.
+혹은 간단하게 심볼릭 링크를 생성한다.
+
+```sh
+python3 -m pytest --version
+# pytest 7.1.3
+```
+
+```sh
+sudo ln $HOME/.local/bin/pytest /usr/local/bin/pytest
 pytest --version
 # pytest 7.1.3
 ```
