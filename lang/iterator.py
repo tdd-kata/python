@@ -2,7 +2,7 @@
 watch -n 0.1 pytest -v iterator.py
 """
 
-
+# https://dojang.io/mod/page/view.php?id=2406
 def test_iterator():
     sut = [1, 2, 3].__iter__()
     assert sut.__next__() == 1

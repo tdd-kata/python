@@ -8,6 +8,12 @@ def number_generator():
     yield 1
     yield 3
 
+def test_generator_is_iterator():
+    gen = number_generator()
+    sut = dir(gen)
+    assert "__iter__" in sut
+    assert "__next__" in sut
+
 def test_loop_list():
     gen = number_generator()
 
