@@ -11,7 +11,7 @@ pip3 show setuptools
 ## install command
 
 ```shell
-sudo python3 setup.py install
+python3 setup.py install --user
 ```
 
 ## clean up

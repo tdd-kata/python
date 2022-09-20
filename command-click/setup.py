@@ -10,6 +10,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "click==8.1.3",
+        "psutil==5.9.2",
     ],
     entry_points={"console_scripts": ["mark = mark.mark:main"]},
     classifiers=[

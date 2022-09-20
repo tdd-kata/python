@@ -3,7 +3,9 @@
 
 import click
 
+from mark.net import ipa
 from mark import __version__
+
 
 @click.group()
 @click.version_option(version=__version__, prog_name="mark", help="버전 정보")
@@ -15,7 +17,8 @@ def main():
     >>> mark
     """
 
-# main.add_command(net)
+
+main.add_command(ipa)
 
 if __name__ == '__main__':
     main()
