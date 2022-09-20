@@ -4,6 +4,7 @@
 import click
 
 from mark.net import ipa
+from mark.system import sys
 from mark import __version__
 
 
@@ -19,6 +20,7 @@ def main():
 
 
 main.add_command(ipa)
+main.add_command(sys)
 
 if __name__ == '__main__':
     main()
