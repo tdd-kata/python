@@ -133,3 +133,7 @@ def test_extend():
     sut = [1, 2, 3]
     sut.extend([4, 5, 6])
     assert sut == [1, 2, 3, 4, 5, 6]
+
+def test_instead_lambda():
+    sut = [1, 2, 3, 4, 5]
+    assert [i * 2 for i in sut if i % 2 == 0] == [4, 8]
