@@ -9,8 +9,6 @@ from bs4 import BeautifulSoup
 from ansi_color import debug, info, meta, error
 from robots import robots
 
-VISITED = set()
-
 # response = requests.get(URL, verify=False)
 requests.packages.urllib3.disable_warnings()  # 인증서 경고 메시지 무시
 
@@ -56,12 +54,13 @@ class WebScraper:
                  page: int,
                  size: int):
         self.url = url
+        self.total_page = 0
         self.page = page
         self.size = size
         self.host = urlparse(url).netloc
         self.visited = set()
 
-    def list_url(self) -> str:
+    def get_url(self) -> str:
         return \
             f"{self.url}/mycar/mycar_list.php" \
             f"?gubun={Car.IMPORTED}" \
@@ -69,40 +68,77 @@ class WebScraper:
             f"&page={self.page}" \
             f"&view_size={self.size}"
 
-    # 각 URL에 대한 요청을 처리하는 함수
+    def calculate_total_page(self):
+        """
+        전체 페이지 수를 계산한다.
+        """
+        response = requests.get(
+            url=self.get_url(),
+            headers={
+                # navigator.userAgent
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63'
+            },
+            verify=False  # requests.exceptions.SSLError
+        )
+        soup = BeautifulSoup(response.text, "html.parser")
+        total_count = int(
+            soup.find("span", {"id": "tot"}).text.replace(",", ""))
+        meta(f"total count: {total_count}")
+        self.total_page = total_count // self.size + 1
+        meta(f"total page: {self.total_page}")
+
     def fetch_url(self, url: str):
-        response = requests.get(url=url, verify=False)
+        """
+        각 URL에 대한 요청을 처리한다.
+        """
+        response = requests.get(
+            url=url,
+            headers={
+                # navigator.userAgent
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63'
+            },
+            verify=False
+        )
         return response.content
 
     def crawl(self):
-        # calculate total page
-        # response = requests.get(
-        #     self.list_url(),
-        #     verify=False  # requests.exceptions.SSLError
-        # )
-        # soup = BeautifulSoup(response.text, "html.parser")
-        # total_count: int = int(
-        #     soup.find("span", {"id": "tot"}).text.replace(",", ""))
-        # meta(f"total count: {total_count}")
-        # total_page = total_count // self.size + 1
-        # meta(f"total page: {total_page}")
-        # for page in range(1, total_page):
-        #     crawl_list(list_url(page, size))
+        """
+        크롤링을 수행한다.
+        """
+        interval = 0.5
+        """
+        Rate Limiting을 피하기 위해 interval을 설정한다.
+        `ssl.SSLZeroReturnError: TLS/SSL connection has been closed (EOF) (_ssl.c:997)` 에러가 발생하는데
+        이 오류는 "일반적으로 서버에서 SSL/TLS 연결을 닫았지만, 클라이언트 측에서 이를 처리하지 못하고 추가 데이터를 보낼려고 시도할 때 발생한다"고 한다.
+        서버가 연결을 닫았기 때문에 클라이언트가 데이터를 보내려고 할 때 `SSLZeroReturnError` 예외가 발생한다.
+        """
 
-        with ThreadPoolExecutor(max_workers=10) as executor:
-            futures = []
+        with ThreadPoolExecutor(max_workers=3) as executor:
             urls = []
-            for i in range(1, 20):
-                self.page += 1
-                urls.append(self.list_url())
+            for i in range(1, self.total_page):
+                self.page = i
+                urls.append(self.get_url())
             # futures.append(executor.submit(lambda: self.crawl_list(urls)))
 
             futures = [executor.submit(self.fetch_url, url) for url in urls]
 
             # 각 요청의 결과를 출력
             for future in as_completed(futures):
+                time.sleep(interval)
                 content = future.result()
-                print(len(content))
+                # print(len(content))
+                soup = BeautifulSoup(content, "html.parser")
+
+                product_elements = soup.find_all("li",
+                                                 {"class": "product-item"})
+                product_url = []
+                for product in product_elements:
+                    product_path = product.find("a", {"class": "img w164"}).get(
+                        "href")
+                    product_url.append(f"{self.url}{product_path}")
+                    # self.crawl_product(product_url)
+                # return product_url
+                print(product_url)
             # while futures:
             #     done, futures = self.check_futures(futures)
             #     for future in done:
@@ -113,6 +149,9 @@ class WebScraper:
             #                     executor.submit(self.crawl_list, link))
 
     def check_futures(self, futures):
+        """
+        완료된 future를 제거한다.
+        """
         done = []
         for future in futures:
             if future.done():
@@ -121,50 +160,66 @@ class WebScraper:
             futures.remove(future)
         return done, futures
 
-    def crawl_list(self, url: str):
+    def scrap_list(self, url: str):
+        """
+        상품 목록 페이지를 스크랩한다.
+        """
         time.sleep(1)
-        if url in VISITED:
+        if url in self.visited:
             return
 
         debug(f"Visiting {url}")
         try:
             response = requests.get(
-                url,
+                url=url,
+                headers={
+                    # navigator.userAgent
+                    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63'
+                },
                 verify=False  # requests.exceptions.SSLError
             )
             pprint(response)
             content = response.text
-            VISITED.add(url)
+            self.visited.add(url)
         except requests.exceptions.RequestException as e:
             error(f"Error scraping {url}: {e}")
-            self.crawl_list(url)
+            self.scrap_list(url)
             return
 
         soup = BeautifulSoup(content, "html.parser")
 
         product_list_by_page = soup.find_all("li", {"class": "product-item"})
+        product_url = []
         for product in product_list_by_page:
             product_path = product.find("a", {"class": "img w164"}).get("href")
-            product_url = f"{self.url}{product_path}"
-            self.crawl_product(product_url)
+            product_url.append(f"{self.url}{product_path}")
+            # self.crawl_product(product_url)
+        return product_url
 
-    def crawl_product(self, url: str):
-        info(url)
+    def scrap_product(self, product_url: str):
+        """
+        상품 페이지를 스크랩한다.
+        """
+        info(product_url)
         time.sleep(1)
-        if url in VISITED:
+        if product_url in self.visited:
             return
 
-        debug(f"Visiting {url}")
+        debug(f"Visiting {product_url}")
         try:
             response = requests.get(
-                url,
+                url=product_url,
+                headers={
+                    # navigator.userAgent
+                    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63'
+                },
                 verify=False  # requests.exceptions.SSLError
             )
             content = response.text
-            VISITED.add(url)
+            self.visited.add(product_url)
         except Exception as e:
             error(f"Error: {e}")
-            self.crawl_product(url)
+            self.scrap_product(product_url)
             return
 
         soup = BeautifulSoup(content, "html.parser")
@@ -199,10 +254,11 @@ class WebScraper:
 def main():
     context = "https://www.bobaedream.co.kr"
     scraper = WebScraper(url=context, page=1, size=20)
+    scraper.calculate_total_page()
 
     # validate robots.txt
     robot_url = f"{context}/robots.txt"
-    if robots.validate(robot_url, scraper.list_url()):
+    if robots.validate(robot_url, scraper.get_url()):
         debug('validation success')
 
         # run crawler
