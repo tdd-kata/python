@@ -46,9 +46,28 @@ for col in ("Size", "Modified"):
                                                                 False))
 
 
+def sort_natural_size(tv, item, col):
+    value = tv.set(item, col)
+    try:
+        # If the value can be converted to an integer, return it as is
+        sort_key = int(value)
+    except ValueError:
+        try:
+            # If the value is a file size in string format, convert it to integer bytes
+            suffixes = {"Bytes": 0, "KiB": 1, "MiB": 2, "GiB": 3, "TiB": 4}
+            number, suffix = value.split(" ")
+            sort_key = int(float(number) * (1024 ** suffixes[suffix]))
+        except ValueError:
+            # If the value can't be converted to an integer or file size, return it as is
+            sort_key = value
+    return sort_key
+
+
 def treeview_sort_column(tv, col, reverse):
     if col == "Size":
-        l = [(float(tv.set(k, col)), k) for k in tv.get_children("root_item")]
+        # l = [(float(tv.set(k, col)), k) for k in tv.get_children("root_item")]
+        l = [(sort_natural_size(tv, k, col), k) for k in
+             tv.get_children("root_item")]
     else:
         l = [(tv.set(k, col), k) for k in tv.get_children("root_item")]
     l.sort(reverse=reverse)
@@ -61,6 +80,7 @@ def treeview_sort_column(tv, col, reverse):
 
 def calculate_folder_size(folder_path):
     total_size = 0
+    folder_path = os.path.join(treeview.item("root_item")['text'], folder_path)
     for item in os.listdir(folder_path):
         path = os.path.join(folder_path, item)
         if os.path.isfile(path):
@@ -117,7 +137,7 @@ def recursive_folder(
         treeview.insert(parent=parent,
                         index="end",
                         text=item,
-                        values=(size, modified_str))
+                        values=(natural_size, modified_str))
     elif os.path.isdir(path):
         size = calculate_folder_size(path)
         natural_size = humanize.naturalsize(size, binary=True)
@@ -126,7 +146,7 @@ def recursive_folder(
                         id=new_parent,
                         index="end",
                         text=item,
-                        values=(size, ""))
+                        values=(natural_size, ""))
         for item in os.listdir(path):
             recursive_folder(new_parent, path, item)
 
