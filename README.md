@@ -1,5 +1,15 @@
 # Python
 
+- [Python](#python)
+  - [다운로드](#다운로드)
+    - [Ubuntu 22.04](#ubuntu-2204)
+    - [CentOS 7](#centos-7)
+    - [Windows 11](#windows-11)
+  - [Python Code Formatter](#python-code-formatter)
+  - [Package Installation](#package-installation)
+  - [Virtual Environment](#virtual-environment)
+  - [더 읽을거리](#더-읽을거리)
+
 Python 2는 2020년 1월 1일부터 더 이상 지원되지 않는다.
 버그 수정, 보안 패치, 새로운 기능의 역포팅(backporting)이 이뤄지지 않는다.
 Python 2를 사용하는 데 따른 책임은 본인에게 있다.
@@ -200,6 +210,29 @@ pytest
 ```sh
 # https://bugs.python.org/issue22295
 python3 -m pip install $PACKAGE
+```
+
+## Virtual Environment
+
+```sh
+# python3 -m venv {venv_name}
+python3 -m venv .venv
+echo ".venv" >> .gitignore
+```
+
+```sh
+# Unixlike
+source .venv/bin/activate
+```
+
+```ps1
+# Windows
+.venv\Scripts\activate
+```
+
+```sh
+venv> which python
+venv> pip install --upgrade pip
 ```
 
 ## 더 읽을거리
