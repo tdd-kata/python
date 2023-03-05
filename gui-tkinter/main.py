@@ -47,8 +47,6 @@ for col in ("Size", "Modified"):
 
 
 def treeview_sort_column(tv, col, reverse):
-    print(col)
-    print(tv.get_children("root_item"))
     if col == "Size":
         l = [(float(tv.set(k, col)), k) for k in tv.get_children("root_item")]
     else:
@@ -59,6 +57,7 @@ def treeview_sort_column(tv, col, reverse):
         tv.move(k, "root_item", index)
 
     tv.heading(col, command=lambda: treeview_sort_column(tv, col, not reverse))
+
 
 def calculate_folder_size(folder_path):
     total_size = 0
@@ -137,9 +136,7 @@ def calculate():
     if not selected_item:
         messagebox.showerror("Error", "Please select a folder.")
         return
-    print(selected_item)
     folder_selected = treeview.item(selected_item)["text"]
-    print(folder_selected)
     total_size = calculate_folder_size(folder_selected)
     human_readable_size = humanize.naturalsize(total_size, binary=True)
     messagebox.showinfo("Total size",
