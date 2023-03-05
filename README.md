@@ -214,6 +214,14 @@ python3 -m pip install $PACKAGE
 
 ## Virtual Environment
 
+> The virtual environment was not created successfully because ensurepip is not
+> available.  On Debian/Ubuntu systems, you need to install the python3-venv
+> package using the following command.
+
+```sh
+apt install python3.10-venv
+```
+
 ```sh
 # python3 -m venv {venv_name}
 python3 -m venv .venv
