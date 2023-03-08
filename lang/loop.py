@@ -1,50 +1,17 @@
-"""
-watch -n 0.1 pytest -v loop.py
-"""
+# 0부터 4까지의 숫자 시퀀스를 생성합니다.
+a: list = []
+for i in range(5):
+    a.append(i)
+print(a)
 
+# 2부터 6까지의 숫자 시퀀스를 생성합니다.
+b: list = []
+for i in range(2, 7):
+    b.append(i)
+print(b)
 
-def test_loop_list():
-    sut = [1, 2, 3]
-    result = []
-
-    for i in sut:
-        result.append(i)
-
-    assert result == [1, 2, 3]
-
-
-def test_loop_set():
-    sut = {1, 2, 3}
-    result = []
-
-    for i in sut:
-        result.append(i)
-
-    assert result == [1, 2, 3]
-
-
-def test_loop_tuple_list():
-    sut = [(1, "one"), (2, "two"), (3, "three")]
-    lefts = []
-    rights = []
-
-    for (first, last) in sut:
-        lefts.append(first)
-        rights.append(last)
-
-    assert lefts == [1, 2, 3]
-    assert rights == ["one", "two", "three"]
-
-
-def test_loop_dict():
-    sut = {1: "one", 2: "two", 3: "three"}
-    keys = []
-    values = []
-
-    # dict_keys, dict_values, dict_items
-    for (key, value) in sut.items():
-        keys.append(key)
-        values.append(value)
-
-    assert keys == [1, 2, 3]
-    assert values == ["one", "two", "three"]
+# 0부터 10까지 2씩 증가하는 숫자 시퀀스를 생성합니다.
+c: list = []
+for i in range(0, 11, 2):
+    c.append(i)
+print(c)
