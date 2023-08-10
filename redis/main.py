@@ -1,4 +1,5 @@
 from typing import Any
+import javaobj
 
 import redis
 
@@ -32,7 +33,7 @@ def scan_all_keys(r: redis.Redis):
     for key in r.scan_iter(match='*', count=100):
         print('🚩')
         print(f'[{key.decode("utf-8")}]')
-        print(f'TTL: {r.ttl(key)}')
+        print(f'TTL: {r.ttl(key)} (sec)')
         print(get(r, key))
 
 
@@ -44,7 +45,7 @@ def get(
     data_type = b_data_type.decode('utf-8')
     print(f'Data Type: {data_type}')
     if data_type == 'string':
-        return r.get(key)
+        return javaobj.loads(r.get(key))
     if data_type == 'list':
         return r.lrange(key, 0, -1)
     if data_type == 'hash':
