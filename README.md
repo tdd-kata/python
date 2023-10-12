@@ -62,6 +62,16 @@ exec $SHELL
 ```
 
 ```sh
+pyenv update
+```
+
+```sh
+# 3.11.*
+pyenv install --list | grep " 3.11"
+
+# 3.6, 3.7, 3.8
+pyenv install --list | grep " 3\.[678]"
+
 # 3.9.*, 3.10.*
 pyenv install --list | egrep " 3\.(9|10)\."
 ```
@@ -71,6 +81,40 @@ pyenv install 3.9.16 -v
 # /home/markruler/.pyenv/versions/3.9.16
 pyenv install 3.10.10 -v
 # /home/markruler/.pyenv/versions/3.10.10
+```
+
+설치된 버전 확인
+
+```sh
+pyenv versions
+# * system (set by /home/markruler/.pyenv/version)
+#   3.8.16
+#   3.9.16
+#   3.11.6
+```
+
+설치된 버전 선택
+
+```sh
+python --version
+# pyenv: python: command not found
+#
+# The `python' command exists in these Python versions:
+#   3.8.16
+#   3.9.16
+#   3.11.6
+#
+# Note: See 'pyenv help global' for tips on allowing both
+#       python2 and python3 to be found.
+```
+
+```sh
+pyenv global 3.11.6
+```
+
+```sh
+python --version
+# Python 3.11.6
 ```
 
 ### Ubuntu 22.04
