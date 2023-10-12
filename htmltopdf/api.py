@@ -1,4 +1,6 @@
 import json
+from functools import wraps
+from time import process_time
 
 import pdfkit
 from flask import Flask, Response, request
@@ -6,16 +8,44 @@ from flask import Flask, Response, request
 app = Flask(__name__)
 
 
+# logging decorator
+def print_elapsed_time(func):
+    @wraps(func)
+    def wrapper(**kwargs):
+        start = process_time()
+        app.logger.info(start)
+
+        # 함수 실행
+        result = func(**kwargs)
+
+        end = process_time()
+        app.logger.info(end)
+        app.logger.info("\tElapsed time for function: %.3f s" % (end - start))
+        return result
+
+    return wrapper
+
+
+wkhtmltopdf_options = {
+    'page-size': 'A4',  # A4, Letter, Legal
+    'orientation': 'portrait',  # portrait, landscape
+    'dpi': 1200,
+    'encoding': "UTF-8",
+}
+
+
 @app.route(rule='/pdf/url', methods=['GET'])
+@print_elapsed_time
 def get_pdf_from_url():
     # data: dict = request.json
     data: dict = request.args
 
     try:
-        print(data['url'])
-        binary_pdf = pdfkit.from_url(url=data['url'])
+        app.logger.info(data['url'])
+        binary_pdf = pdfkit.from_url(url=data['url'],
+                                     options=wkhtmltopdf_options)
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         res: dict[str, str] = {
             "message": "Something went wrong. Please try again later."
         }
@@ -25,6 +55,8 @@ def get_pdf_from_url():
             status=500,
         )
     filename = 'out'
+    # elapsed time
+
     return Response(
         response=binary_pdf,
         mimetype='application/pdf',
@@ -39,10 +71,11 @@ def get_pdf_from_string_html():
     data: dict = request.json
 
     try:
-        print(data['html'])
-        binary_pdf = pdfkit.from_string(input=data['html'])
+        app.logger.debug(data['html'])
+        binary_pdf = pdfkit.from_string(input=data['html'],
+                                        options=wkhtmltopdf_options)
     except Exception as e:
-        print(e)
+        app.logger.error(e)
         res: dict[str, str] = {
             "message": "Something went wrong. Please try again later."
         }

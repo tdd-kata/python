@@ -1,3 +1,5 @@
+version = 0.1.1
+
 .PHONY: all
 all: test
 
@@ -12,8 +14,8 @@ clean:
 
 .PHONY: docker-build
 docker-build:
-	docker build . -t htmltopdf:0.1.0
+	sudo docker build . -t htmltopdf:${version}
 
 .PHONY: docker-run
 docker-run:
-	docker run -d --name htmltopdf -p 5000:5000 htmltopdf:0.1.0
+	sudo docker run -d --name htmltopdf -p 5000:5000 htmltopdf:${version}
