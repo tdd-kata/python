@@ -94,8 +94,8 @@ def get_pdf_from_string_html():
     )
 
 
-# python3 -m flask --app api.py run --debug --reload
-# python3 api.py
+# python3 -m flask --app webkit-api.py run --debug --reload
+# python3 webkit-api.py
 if __name__ == '__main__':
     app.run(
         host="0.0.0.0",  # 명시하지 않으면 localhost만 인식함.
