@@ -1,2 +1,6 @@
+# webkit
 pdfkit==1.0.0
-flask==3.0.0
+# chromium
+pyppeteer==1.0.2
+
+Flask==3.0.0

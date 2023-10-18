@@ -1,41 +1,45 @@
 # pdfkit on Ubuntu
 
-## Install `pdfkit`
-
 ```shell
 python3 -m venv venv
 source venv/bin/activate
+```
+
+## Chromium
+
+```shell
+# Install `pyppeteer`
 pip install -r requirements.txt
 ```
 
-## Install `wk<html>topdf`
+```shell
+# Install `chromium`
+sudo apt-get install chromium-browser
+```
 
 ```shell
+python3 chromium.py
+```
+
+## WebKit
+
+```shell
+# Install `pdfkit`
+pip install -r requirements.txt
+```
+
+```shell
+# Install `wk<html>topdf`
 sudo apt install wkhtmltopdf
-python main.py
 ```
 
-## 페이지 분리
-
-table, div 태그 등에 해당 인라인 스타일을 넣어서 페이지 분리 필요.
-margin 값 등으로 조정하려면 매우 힘듦.
-
-```html
-
-<!-- 첫 페이지부터 -> 마지막 페이지 -->
-<!-- page-break-after:always; -> page-break-after:auto; -->
-<!-- page-break-after:always; -> page-break-after:avoid; -->
-<!-- page-break-before:auto; -> page-break-before:always; -->
-<!-- page-break-before:avoid; -> page-break-before:always; -->
-<div style="page-break-after: always;"></div>
-<div style="page-break-after: avoid;"></div>
+```shell
+python3 webkit.py
 ```
 
-- 브라우저 프린트(`window.print()`) 기능과 동일한 출력물을 기대할 순 없나?
+### 외부 URL 제거
 
-## 외부 URL 제거
-
-- from_file() 사용 시 HTML 파일에 로컬 파일 참조 링크가 있으면 아래와 같은 에러가 발생함.
+- wk.from_file() 사용 시 HTML 파일에 로컬 파일 참조 링크가 있으면 아래와 같은 에러가 발생함.
 - CSS(`/style.css`), JS 파일과 같은 정적 파일 제거
 
 ```shell
@@ -53,4 +57,23 @@ Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland
 QNetworkReplyImplPrivate::error: Internal problem, this method must only be called once.
 QNetworkReplyImplPrivate::error: Internal problem, this method must only be called once.
 Exit with code 1 due to network error: OperationCanceledError
+```
+
+- 크롬 브라우저 프린트(`window.print()`) 기능과 동일한 출력물을 기대할 순 없나?
+  - chromium 사용
+
+## 페이지 분리
+
+table, div 태그 등에 해당 인라인 스타일을 넣어서 페이지 분리 필요.
+margin 값 등으로 조정하려면 매우 힘듦.
+
+```html
+
+<!-- 첫 페이지부터 -> 마지막 페이지 -->
+<!-- page-break-after:always; -> page-break-after:auto; -->
+<!-- page-break-after:always; -> page-break-after:avoid; -->
+<!-- page-break-before:auto; -> page-break-before:always; -->
+<!-- page-break-before:avoid; -> page-break-before:always; -->
+<div style="page-break-after: always;"></div>
+<div style="page-break-after: avoid;"></div>
 ```

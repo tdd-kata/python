@@ -1,0 +1,9 @@
+venv/
+loadtest/
+*.pdf
+*.html
+
+.idea/
+__pycache__/
+
+layers/

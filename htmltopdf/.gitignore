@@ -2,3 +2,5 @@
 *.html
 venv/
 wkhtmltopdf
+
+layers/
