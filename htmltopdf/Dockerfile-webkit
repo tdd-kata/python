@@ -24,5 +24,5 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 RUN apt-get -y install wkhtmltopdf
 
 RUN pip3 install -r requirements.txt
-CMD ["python3", "api.py"]
+    CMD ["python3", "webkit-api.py"]
 

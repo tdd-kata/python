@@ -6,8 +6,9 @@ from pyppeteer import launch
 
 async def url_to_pdf(url, _output_path):
     # command_chrome = shutil.which('google-chrome')
-    command_chrome = shutil.which('chromium-browser')
-    print(f'which google-chrome: {command_chrome}')
+    # command_chrome = shutil.which('chromium-browser')
+    command_chrome = shutil.which('chromium')
+    print(f'which chrome: {command_chrome}')
 
     print('headless Chromium 브라우저 시작')
     browser = await launch(
@@ -23,8 +24,8 @@ async def url_to_pdf(url, _output_path):
 
     print('PDF로 변환 및 저장')
     await page.pdf({
-        'path': _output_path,
         'format': 'A4',
+        'path': _output_path,
         # 'margin': {
         #     'top': '10mm'
         # },
