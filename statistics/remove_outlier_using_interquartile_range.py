@@ -1,4 +1,4 @@
-import matplotlib.pyplot
+import matplotlib.pyplot as plot
 import numpy
 import pandas
 import scipy.stats as stats
@@ -45,9 +45,9 @@ def main(
         numpy.std(data2),
     )
 
-    matplotlib.pyplot.figure()
-    matplotlib.pyplot.plot(numpy.sort(data2), pdf)
-    matplotlib.pyplot.show()
+    plot.figure()
+    plot.plot(numpy.sort(data2), pdf)
+    plot.show()
 
 
 if __name__ == '__main__':
