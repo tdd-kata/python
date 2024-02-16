@@ -20,6 +20,7 @@ def convert_image(input_path, output_format):
             # 지정된 포맷으로 이미지 저장
             img.save(output_path, output_format.upper())
             print(f"Image saved as {output_path}")
+            print(f"format:{img.format}, size:{img.size}, mode{img.mode}")
     except IOError:
         print(f"Error opening or saving the file: {input_path}")
 
