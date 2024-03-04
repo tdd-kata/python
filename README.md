@@ -2,13 +2,13 @@
 
 - [Python](#python)
   - [다운로드](#다운로드)
-    - [👍 pyenv](#-pyenv)
+    - [pyenv](#pyenv)
     - [Ubuntu 22.04](#ubuntu-2204)
     - [CentOS 7](#centos-7)
     - [Windows 11](#windows-11)
   - [Python Code Formatter](#python-code-formatter)
   - [Package Installation](#package-installation)
-  - [Virtual Environment](#virtual-environment)
+  - [Virtual Environment (`venv`)](#virtual-environment-venv)
   - [더 읽을거리](#더-읽을거리)
 
 Python 2는 2020년 1월 1일부터 더 이상 지원되지 않는다.
@@ -25,7 +25,7 @@ Python 2를 사용하는 데 따른 책임은 본인에게 있다.
 
 - [Download](https://www.python.org/downloads/)
 
-### 👍 pyenv
+### pyenv
 
 - [Managing Multiple Python Versions With pyenv](https://realpython.com/intro-to-pyenv/) - Real Python
 
@@ -62,16 +62,6 @@ exec $SHELL
 ```
 
 ```sh
-pyenv update
-```
-
-```sh
-# 3.11.*
-pyenv install --list | grep " 3.11"
-
-# 3.6, 3.7, 3.8
-pyenv install --list | grep " 3\.[678]"
-
 # 3.9.*, 3.10.*
 pyenv install --list | egrep " 3\.(9|10)\."
 ```
@@ -79,42 +69,13 @@ pyenv install --list | egrep " 3\.(9|10)\."
 ```sh
 pyenv install 3.9.16 -v
 # /home/markruler/.pyenv/versions/3.9.16
-pyenv install 3.10.10 -v
+
+pyenv versions                                                                                                ✭
+* system (set by /home/markruler/.pyenv/version)
+  3.9.16
+
+pyenv install 3.10.9 -v
 # /home/markruler/.pyenv/versions/3.10.10
-```
-
-설치된 버전 확인
-
-```sh
-pyenv versions
-# * system (set by /home/markruler/.pyenv/version)
-#   3.8.16
-#   3.9.16
-#   3.11.6
-```
-
-설치된 버전 선택
-
-```sh
-python --version
-# pyenv: python: command not found
-#
-# The `python' command exists in these Python versions:
-#   3.8.16
-#   3.9.16
-#   3.11.6
-#
-# Note: See 'pyenv help global' for tips on allowing both
-#       python2 and python3 to be found.
-```
-
-```sh
-pyenv global 3.11.6
-```
-
-```sh
-python --version
-# Python 3.11.6
 ```
 
 ### Ubuntu 22.04
@@ -305,35 +266,31 @@ pytest
 python3 -m pip install $PACKAGE
 ```
 
-## Virtual Environment
+## Virtual Environment (`venv`)
+
+- [venv](https://docs.python.org/3/library/venv.html)
 
 > The virtual environment was not created successfully because ensurepip is not
 > available.  On Debian/Ubuntu systems, you need to install the python3-venv
 > package using the following command.
 
 ```sh
-apt install python3.10-venv
+# 만약 커맨드가 없다면
+apt install python3.11-venv
 ```
 
 ```sh
 # python3 -m venv {venv_name}
-python3 -m venv .venv
-echo ".venv" >> .gitignore
+python3 -m venv venv
+echo "venv" >> .gitignore
 ```
 
 ```sh
 # Unixlike
-source .venv/bin/activate
-```
+source venv/bin/activate
 
-```ps1
 # Windows
-.venv\Scripts\activate
-```
-
-```sh
-venv> which python
-venv> pip install --upgrade pip
+venv\Scripts\activate
 ```
 
 ## 더 읽을거리
