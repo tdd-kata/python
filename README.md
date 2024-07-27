@@ -2,10 +2,11 @@
 
 - [Python](#python)
   - [다운로드](#다운로드)
-    - [pyenv](#pyenv)
+    - [macOS](#macos)
     - [Ubuntu 22.04](#ubuntu-2204)
     - [CentOS 7](#centos-7)
     - [Windows 11](#windows-11)
+    - [pyenv](#pyenv)
   - [Python Code Formatter](#python-code-formatter)
   - [Package Installation](#package-installation)
   - [Virtual Environment (`venv`)](#virtual-environment-venv)
@@ -25,57 +26,10 @@ Python 2를 사용하는 데 따른 책임은 본인에게 있다.
 
 - [Download](https://www.python.org/downloads/)
 
-### pyenv
-
-- [Managing Multiple Python Versions With pyenv](https://realpython.com/intro-to-pyenv/) - Real Python
-
-Build Dependencies
+### macOS
 
 ```sh
-# Ubuntu/Debian
-sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
-libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
-libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl
-
-# Fedora/CentOS/RHEL
-sudo yum install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite \
-sqlite-devel openssl-devel xz xz-devel libffi-devel
-
-# macOS
-brew install openssl readline sqlite3 xz zlib
-```
-
-```sh
-curl https://pyenv.run | bash
-```
-
-```sh
-# ~/.zshrc
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-```
-
-```sh
-exec $SHELL
-```
-
-```sh
-# 3.9.*, 3.10.*
-pyenv install --list | egrep " 3\.(9|10)\."
-```
-
-```sh
-pyenv install 3.9.16 -v
-# /home/markruler/.pyenv/versions/3.9.16
-
-pyenv versions                                                                                                ✭
-* system (set by /home/markruler/.pyenv/version)
-  3.9.16
-
-pyenv install 3.10.9 -v
-# /home/markruler/.pyenv/versions/3.10.10
+brew install python@3.12
 ```
 
 ### Ubuntu 22.04
@@ -248,6 +202,59 @@ pytest --version
 
 ```sh
 pytest
+```
+
+### pyenv
+
+- [Managing Multiple Python Versions With pyenv](https://realpython.com/intro-to-pyenv/) - Real Python
+
+Build Dependencies
+
+```sh
+# Ubuntu/Debian
+sudo apt-get install -y make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
+libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl
+
+# Fedora/CentOS/RHEL
+sudo yum install gcc zlib-devel bzip2 bzip2-devel readline-devel sqlite \
+sqlite-devel openssl-devel xz xz-devel libffi-devel
+
+# macOS
+brew install openssl readline sqlite3 xz zlib
+```
+
+```sh
+curl https://pyenv.run | bash
+```
+
+```sh
+# ~/.zshrc
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+```sh
+exec $SHELL
+```
+
+```sh
+# 3.9.*, 3.10.*
+pyenv install --list | egrep " 3\.(9|10)\."
+```
+
+```sh
+pyenv install 3.9.16 -v
+# /home/markruler/.pyenv/versions/3.9.16
+
+pyenv versions                                                                                                ✭
+* system (set by /home/markruler/.pyenv/version)
+  3.9.16
+
+pyenv install 3.10.9 -v
+# /home/markruler/.pyenv/versions/3.10.10
 ```
 
 ## Python Code Formatter
