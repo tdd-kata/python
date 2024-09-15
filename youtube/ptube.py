@@ -1,5 +1,5 @@
-from pytube import YouTube
-from pytube.cli import on_progress
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
 
 # link: str = 'https://youtu.be/3bAlS8YSffc'
 link: str = input('enter url:')
@@ -9,9 +9,10 @@ yt = YouTube(url=link)
 yt.register_on_progress_callback(on_progress)
 
 video = yt.streams \
-    .filter(progressive=True, file_extension='mp4') \
-    .order_by('resolution') \
-    .desc() \
-    .first()
+    .get_highest_resolution()
+    #.filter(progressive=True, file_extension='mp4') \
+    #.order_by('resolution') \
+    #.desc() \
+    #.first()
 
 video.download()

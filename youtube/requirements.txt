@@ -1,1 +1,5 @@
-pytube==15.0.0
+# https://github.com/pytube/pytube/issues/1894
+# pytube==15.0.0
+pytubefix==6.16.1
+# youtube_dl==2021.12.17
+youtube-dl-nightly==2024.8.7
